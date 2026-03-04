@@ -13,7 +13,7 @@ A Python project demonstrating and comparing various sorting algorithms on vehic
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/matylerb/DSAA.git
 cd assignment
 ```
 
