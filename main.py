@@ -1,59 +1,78 @@
+import csv
+import os
 import time
 
 from data_loader.data_loader import load_data
 from business.company import Company
 from main_tester import time_sort
 
-from sorter.bubble_sort import BubbleSort       
+from sorter.bubble_sort import BubbleSort
 from sorter.insertion_sort import InsertionSort
 from sorter.merge_sort import MergeSort
 from sorter.quick_sort import QuickSort
 from sorter.selection_sort import selectionSort
 
 
-def sort_vehicles_by_price(loader, sorters, sizes):
-    """Sort all vehicles for specific ranges by Price"""
+def write_sorted_to_csv(sorted_cars, filepath):
+    """Write a list of sorted Car objects to a CSV file."""
+    dirname = os.path.dirname(filepath)
+    if dirname:
+        os.makedirs(dirname, exist_ok=True)
+    with open(filepath, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Vehicle_ID', 'Brand', 'Model', 'Year',
+                         'Mileage', 'Engine_Size', 'Price'])
+        for car in sorted_cars:
+            writer.writerow([car.vehicle_id, car.brand, car.model,
+                             car.year, car.mileage, car.engine_size,
+                             car.price])
+
+
+def sort_vehicles_by_price(company, loader, sorters, sizes):
+    """Sort all vehicles for specific ranges by Price using Company methods."""
     print("====================================")
     print("Sorting Vehicles by PRICE")
     print("====================================\n")
-    
-    key_function = lambda car: car.price
-    
+
     for size in sizes:
         sales_data = loader.get_data_by_size(size)
+        company.set_sales(sales_data)
         print(f"Data Size: {size} records")
         print("-" * 40)
-        
+
         for name, sorter in sorters.items():
-            data_copy = sales_data.copy()
             start = time.perf_counter()
-            sorter.sort(data_copy, key=key_function)
+            sorted_result = company.sort_vehicles_by_price(sorter)
             end = time.perf_counter()
             print(f"  {name}: {end - start:.6f} seconds")
-        
+
+            filename = f"output/{name.replace(' ', '_').lower()}_price_{size}.csv"
+            write_sorted_to_csv(sorted_result, filename)
+
         print()
 
 
-def sort_vehicles_by_mileage(loader, sorters, sizes):
-    """Sort all vehicles by Mileage"""
+def sort_vehicles_by_mileage(company, loader, sorters, sizes):
+    """Sort all vehicles by Mileage using Company methods."""
     print("====================================")
     print("Sorting Vehicles by MILEAGE")
     print("====================================\n")
-    
-    key_function = lambda car: car.mileage
-    
+
     for size in sizes:
         sales_data = loader.get_data_by_size(size)
+        company.set_sales(sales_data)
         print(f"Data Size: {size} records")
         print("-" * 40)
-        
+
         for name, sorter in sorters.items():
-            data_copy = sales_data.copy()
             start = time.perf_counter()
-            sorter.sort(data_copy, key=key_function)
+            sorted_result = company.sort_vehicles_by_mileage(sorter)
             end = time.perf_counter()
             print(f"  {name}: {end - start:.6f} seconds")
-        
+
+            filename = f"output/{name.replace(' ', '_').lower()}_mileage_{size}.csv"
+            write_sorted_to_csv(sorted_result, filename)
+
         print()
 
 
@@ -74,7 +93,7 @@ if __name__ == "__main__":
     company = Company("TechCorp", sales_data)
     print("Company Summary:")
     print(f"Total Records: {company.total_sales()}")
-    print(f"Total Revenue: {company.total_revenue():,.2f}\n")
+    print(f"Total Revenue: ${company.total_revenue():,.2f}\n")
 
     # -----------------------------------
     # 3. Set up Sorting Algorithms
@@ -93,12 +112,12 @@ if __name__ == "__main__":
     # -----------------------------------
     # 4. Sort vehicles by Price
     # -----------------------------------
-    sort_vehicles_by_price(loader, sorters, sizes)
+    sort_vehicles_by_price(company, loader, sorters, sizes)
 
     # -----------------------------------
     # 5. Sort vehicles by Mileage
     # -----------------------------------
-    sort_vehicles_by_mileage(loader, sorters, sizes)
+    sort_vehicles_by_mileage(company, loader, sorters, sizes)
 
     # -----------------------------------
     # 6. Display Top 10 by Price
@@ -106,6 +125,7 @@ if __name__ == "__main__":
     print("====================================")
     print("Top 10 Vehicles by Price (Highest):")
     print("====================================")
-    sorted_by_price = sorters["Merge Sort"].sort(sales_data.copy(), key=lambda car: car.price)
-    for i, car in enumerate(sorted_by_price[-10:][::-1], 1):
+    company.set_sales(loader.get_data_by_size(1000))
+    top_10 = company.get_top_sales(sorters["Merge Sort"], n=10)
+    for i, car in enumerate(top_10, 1):
         print(f"  {i}. {car}")

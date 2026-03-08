@@ -69,7 +69,7 @@ def main():
             case '4':
                 start = time.perf_counter()
 
-                sorted_sales = company.sort_sales(curret_sorter, key=lambda x: x.price)
+                sorted_sales = company.sort_vehicles_by_price(curret_sorter)
 
                 print(f"Sorting Time: {time.perf_counter() - start:.6f} seconds\n")
 

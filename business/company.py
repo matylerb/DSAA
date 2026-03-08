@@ -9,17 +9,25 @@ class Company:
 
     def get_sales(self):
         return self.__sale_list.copy()
-    
+
+    def set_sales(self, sales_list):
+        self.__sale_list = sales_list if sales_list else []
+
     def total_sales(self):
         return len(self.__sale_list)
-    
+
     def sort_sales(self, sorter, key=lambda x: x.price):
-        return sorter.sort(self.__sale_list.copy(), key)   
+        return sorter.sort(self.__sale_list.copy(), key)
+
+    def sort_vehicles_by_price(self, sorter):
+        return self.sort_sales(sorter, key=lambda x: x.price)
+
+    def sort_vehicles_by_mileage(self, sorter):
+        return self.sort_sales(sorter, key=lambda x: x.mileage)
 
     def total_revenue(self):
-        print("total revenue method needs to be implemented...")
-        return 0
-    
+        return sum(car.price for car in self.__sale_list)
+
     def get_top_sales(self, sorter, n=10):
         sorted_sales = sorter.sort(self.__sale_list.copy(), key=lambda x: x.price)
         top_sales = []

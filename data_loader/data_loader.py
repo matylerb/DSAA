@@ -12,7 +12,12 @@ class load_data:
             reader = csv.DictReader(file)
             for row in reader:
                 sale = Car(
+                    vehicle_id=row['Vehicle_ID'],
+                    brand=row['Brand'],
+                    model=row['Model'],
+                    year=int(row['Year']),
                     mileage=int(row['Mileage']),
+                    engine_size=float(row['Engine_Size']),
                     price=float(row['Price']),
                 )
                 self.__cars.append(sale)

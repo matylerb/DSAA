@@ -9,7 +9,7 @@ from sorter.selection_sort import selectionSort
 
 def time_sort( sorter, data, key_function, run=3):
 
-    total  = 0 
+    total  = 0
     for _ in range(run):
         data_copy = data.copy()
         start = time.perf_counter()
@@ -22,7 +22,7 @@ def main():
     data_set_sizes = [100, 500, 1000, 5000]
 
     loader = load_data("data/vehicles.csv")
-    
+
     algorithms = {
         "Bubble Sort": BubbleSort(),
         "Insertion Sort": InsertionSort(),
@@ -31,31 +31,53 @@ def main():
         "Selection Sort": selectionSort()
     }
 
-    key_function = lambda car: car.price
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
-    results = {name: [] for name in algorithms.keys()}
-    print("Timing sorting algorithms...\n")
+    # --- Price sorting benchmark ---
+    price_results = {name: [] for name in algorithms}
+    print("Timing sorting algorithms by Price...\n")
 
     for size in data_set_sizes:
-
         print(f"Testing with {size} records...")
         data = loader.get_data_by_size(size)
 
         for name, sorter in algorithms.items():
-            avg_time = time_sort(sorter, data, key_function)
-            results[name].append(avg_time)
-            print(f"  {name}: {avg_time:.6f} seconds"  )
+            avg_time = time_sort(sorter, data, lambda car: car.price)
+            price_results[name].append(avg_time)
+            print(f"  {name}: {avg_time:.6f} seconds")
         print()
 
-    plt.figure()
+    for name, times in price_results.items():
+        ax1.plot(data_set_sizes, times, label=name)
+    ax1.set_xlabel("Data Set Size")
+    ax1.set_ylabel("Average Time (seconds)")
+    ax1.set_title("Sorting Algorithm Performance (Price)")
+    ax1.legend()
+    ax1.grid(True)
 
-    for name, times in results.items():
-        plt.plot(data_set_sizes, times, label=name)
-    plt.xlabel("Data Set Size")
-    plt.ylabel("Average Time (seconds)")
-    plt.title("Sorting Algorithm Performance")
-    plt.legend()
-    plt.grid(True)
+    # --- Mileage sorting benchmark ---
+    mileage_results = {name: [] for name in algorithms}
+    print("Timing sorting algorithms by Mileage...\n")
+
+    for size in data_set_sizes:
+        print(f"Testing with {size} records...")
+        data = loader.get_data_by_size(size)
+
+        for name, sorter in algorithms.items():
+            avg_time = time_sort(sorter, data, lambda car: car.mileage)
+            mileage_results[name].append(avg_time)
+            print(f"  {name}: {avg_time:.6f} seconds")
+        print()
+
+    for name, times in mileage_results.items():
+        ax2.plot(data_set_sizes, times, label=name)
+        ax2.set_xlabel("Data Set Size")
+        ax2.set_ylabel("Average Time (seconds)")
+        ax2.set_title("Sorting Algorithm Performance (Mileage)")
+        ax2.legend()
+        ax2.grid(True)
+
+    plt.tight_layout()
     plt.show()
 
 
