@@ -39,8 +39,7 @@ def main():
 
     for size in data_set_sizes:
         print(f"Testing with {size} records...")
-        data = loader.get_data_by_size(size)
-
+        data = loader.get_data_by_size(size)      
         for name, sorter in algorithms.items():
             avg_time = time_sort(sorter, data, lambda car: car.price)
             price_results[name].append(avg_time)
