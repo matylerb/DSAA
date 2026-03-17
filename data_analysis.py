@@ -9,6 +9,13 @@ def analyze_data(file_path):
     #count rows
     print(f"Total records: {len(df)}")
 
+    #get column names
+    print(f"Columns: {df.columns.tolist()}")
+
+    #check missing values
+    print("\nMissing Values:")
+    print(df.isnull().sum())
+
     # Basic statistics
     print("Basic Statistics:")
     print(df.describe())
