@@ -29,4 +29,7 @@ class load_data:
         if size > len(self.__cars):
             raise ValueError("Requested size exceeds the number of available cars.")    
         return self.__cars[:size].copy()
+
+    def get_data_by_year(self, year):
+        return [car for car in self.__cars if car.year == year]
     

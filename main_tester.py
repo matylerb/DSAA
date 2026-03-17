@@ -54,13 +54,14 @@ def main():
     ax1.legend()
     ax1.grid(True)
 
-    # --- Mileage sorting benchmark ---
+    # --- Mileage sorting benchmark (by year) ---
+    years = [2020, 2021, 2022, 2023, 2024]
     mileage_results = {name: [] for name in algorithms}
-    print("Timing sorting algorithms by Mileage...\n")
+    print("Timing sorting algorithms by Mileage (filtered by year)...\n")
 
-    for size in data_set_sizes:
-        print(f"Testing with {size} records...")
-        data = loader.get_data_by_size(size)
+    for year in years:
+        data = loader.get_data_by_year(year)
+        print(f"Testing with year {year} ({len(data)} vehicles)...")
 
         for name, sorter in algorithms.items():
             avg_time = time_sort(sorter, data, lambda car: car.mileage)
@@ -69,10 +70,10 @@ def main():
         print()
 
     for name, times in mileage_results.items():
-        ax2.plot(data_set_sizes, times, label=name)
-        ax2.set_xlabel("Data Set Size")
+        ax2.plot(years, times, label=name)
+        ax2.set_xlabel("Year")
         ax2.set_ylabel("Average Time (seconds)")
-        ax2.set_title("Sorting Algorithm Performance (Mileage)")
+        ax2.set_title("Sorting Algorithm Performance (Mileage by Year)")
         ax2.legend()
         ax2.grid(True)
 
