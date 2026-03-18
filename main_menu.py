@@ -1,10 +1,10 @@
-from data_loader.data_loader import load_data
-from business.company import Company
+from data_loader.data_loader import DataLoader
+from business.company import VehicleCollection
 from sorter.bubble_sort import BubbleSort
 from sorter.insertion_sort import InsertionSort
 from sorter.merge_sort import MergeSort
 from sorter.quick_sort import QuickSort
-from sorter.selection_sort import selectionSort
+from sorter.selection_sort import SelectionSort
 import time
 
 
@@ -38,19 +38,19 @@ def choose_sorter():
     elif choice == '4':
         return QuickSort()
     elif choice == '5':
-        return selectionSort()
+        return SelectionSort()
     else:
         print("Invalid choice, defaulting to Bubble Sort.")
         return BubbleSort()
     
 def main():
 
-    loader = load_data("data/vehicles.csv")
+    loader = DataLoader("data/vehicles.csv")
     sales_data = loader.get_data_by_size(1000)
 
-    company = Company("", sales_data)
+    company = VehicleCollection("", sales_data)
 
-    curret_sorter = None
+    current_sorter = None
 
 
     while True:
@@ -64,12 +64,12 @@ def main():
             case '2':
                 print(f"Total Revenue: {company.total_revenue():,.2f}\n")
             case '3':
-                curret_sorter = choose_sorter()#
+                current_sorter = choose_sorter()
                 print("Sorting algorithm chosen.\n")
             case '4':
                 start = time.perf_counter()
 
-                sorted_sales = company.sort_vehicles_by_price(curret_sorter)
+                sorted_sales = company.sort_vehicles_by_price(current_sorter)
 
                 print(f"Sorting Time: {time.perf_counter() - start:.6f} seconds\n")
 
@@ -80,11 +80,11 @@ def main():
             case '5':
                 n = int(input("Enter the number of top sales to display: "))
 
-                print(f"Retreiving top {n} sales... using {curret_sorter.__class__.__name__}...")
+                print(f"Retrieving top {n} sales... using {current_sorter.__class__.__name__}...")
 
-                top_sales = company.get_top_sales(curret_sorter, n)
+                top_sales = company.get_top_sales(current_sorter, n)
 
-                print(f"top {n} sales retreived.\n")
+                print(f"Top {n} sales retrieved.\n")
 
                 for sale in top_sales:
                     print(sale) 

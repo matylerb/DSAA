@@ -1,5 +1,5 @@
 from sorter.sorter_adt import Sorter
-#
+
 class InsertionSort(Sorter):
     def sort(self, data: list, key= lambda x: x) -> list:
         for i in range(1, len(data)):

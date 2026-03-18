@@ -2,15 +2,15 @@ import csv
 import os
 import time
 
-from data_loader.data_loader import load_data
-from business.company import Company
+from data_loader.data_loader import DataLoader
+from business.company import VehicleCollection
 from main_tester import time_sort
 
 from sorter.bubble_sort import BubbleSort
 from sorter.insertion_sort import InsertionSort
 from sorter.merge_sort import MergeSort
 from sorter.quick_sort import QuickSort
-from sorter.selection_sort import selectionSort
+from sorter.selection_sort import SelectionSort
 
 
 def write_sorted_to_csv(sorted_cars, filepath):
@@ -84,13 +84,13 @@ if __name__ == "__main__":
     # -----------------------------------
     # 1. Load Data
     # -----------------------------------
-    loader = load_data("data/vehicles.csv")
+    loader = DataLoader("data/vehicles.csv")
     sales_data = loader.get_data_by_size(1000)
 
     # -----------------------------------
     # 2. Create Company Object
     # -----------------------------------
-    company = Company("TechCorp", sales_data)
+    company = VehicleCollection("TechCorp", sales_data)
     print("Company Summary:")
     print(f"Total Records: {company.total_sales()}")
     print(f"Total Revenue: ${company.total_revenue():,.2f}\n")
@@ -103,7 +103,7 @@ if __name__ == "__main__":
         "Insertion Sort": InsertionSort(),
         "Merge Sort": MergeSort(),
         "Quick Sort": QuickSort(),
-        "Selection Sort": selectionSort()
+        "Selection Sort": SelectionSort()
     }
 
     # Define data size ranges to test

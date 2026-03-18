@@ -2,12 +2,12 @@ import sys
 import time
 sys.setrecursionlimit(200000)
 
-from data_loader.data_loader import load_data
+from data_loader.data_loader import DataLoader
 from sorter.bubble_sort import BubbleSort
 from sorter.insertion_sort import InsertionSort
 from sorter.merge_sort import MergeSort
 from sorter.quick_sort import QuickSort
-from sorter.selection_sort import selectionSort
+from sorter.selection_sort import SelectionSort
 
 def time_sort(sorter, data, key_function, runs=3):
     total = 0
@@ -20,12 +20,12 @@ def time_sort(sorter, data, key_function, runs=3):
     return total / runs
 
 def main():
-    loader = load_data("data/vehicles.csv")
+    loader = DataLoader("data/vehicles.csv")
     sizes = [250, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000]
 
     algorithms = {
         "Bubble": BubbleSort(),
-        "Selection": selectionSort(),
+        "Selection": SelectionSort(),
         "Insertion": InsertionSort(),
         "Quick": QuickSort(),
         "Merge": MergeSort(),

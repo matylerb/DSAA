@@ -1,4 +1,4 @@
-class Car:
+class Vehicle:
     def __init__(self, vehicle_id=None, brand=None, model=None, year=None,
                  mileage=0, engine_size=None, price=0.0):
         self.vehicle_id = vehicle_id
@@ -10,7 +10,7 @@ class Car:
         self.price = price
 
     def __repr__(self):
-        return (f"Car(Vehicle_ID={self.vehicle_id}, Brand={self.brand}, "
+        return (f"Vehicle(Vehicle_ID={self.vehicle_id}, Brand={self.brand}, "
                 f"Model={self.model}, Year={self.year}, "
                 f"Mileage={self.mileage}, Engine_Size={self.engine_size}, "
                 f"Price={self.price})")

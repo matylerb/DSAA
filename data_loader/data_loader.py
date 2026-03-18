@@ -1,7 +1,7 @@
 import csv
-from model.car import Car
+from model.car import Vehicle
 
-class load_data:
+class DataLoader:
     def __init__(self, file_path):
         self.file_path = file_path
         self.__cars = []
@@ -11,7 +11,7 @@ class load_data:
         with open(self.file_path, 'r', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                sale = Car(
+                sale = Vehicle(
                     vehicle_id=row['Vehicle_ID'],
                     brand=row['Brand'],
                     model=row['Model'],

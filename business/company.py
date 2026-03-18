@@ -1,4 +1,4 @@
-class Company:
+class VehicleCollection:
 
     def __init__(self, name, sales_list=None):
         self.name = name

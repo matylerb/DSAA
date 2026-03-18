@@ -1,11 +1,11 @@
 import time
 import matplotlib.pyplot as plt
-from data_loader.data_loader import load_data
+from data_loader.data_loader import DataLoader
 from sorter.bubble_sort import BubbleSort
 from sorter.insertion_sort import InsertionSort
 from sorter.merge_sort import MergeSort
 from sorter.quick_sort import QuickSort
-from sorter.selection_sort import selectionSort
+from sorter.selection_sort import SelectionSort
 
 def time_sort( sorter, data, key_function, run=3):
 
@@ -21,14 +21,14 @@ def time_sort( sorter, data, key_function, run=3):
 def main():
     data_set_sizes = [100, 500, 1000, 5000]
 
-    loader = load_data("data/vehicles.csv")
+    loader = DataLoader("data/vehicles.csv")
 
     algorithms = {
         "Bubble Sort": BubbleSort(),
         "Insertion Sort": InsertionSort(),
         "Merge Sort": MergeSort(),
         "Quick Sort": QuickSort(),
-        "Selection Sort": selectionSort()
+        "Selection Sort": SelectionSort()
     }
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))

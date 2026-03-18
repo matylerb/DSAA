@@ -1,6 +1,6 @@
 from sorter.sorter_adt import Sorter
 
-class selectionSort(Sorter):
+class SelectionSort(Sorter):
     def sort(self, data: list, key= lambda x: x) -> list:
         n = len(data)
         for i in range(n):
